@@ -1,0 +1,78 @@
+<style>
+
+body {
+background-image: url('static/luxurycapsule.jpg');
+background-attachment:fixed;
+color: white;
+margin-top: 50px;
+font-family:sans-serif;
+}
+a{
+  color:white;
+}
+table, h1{
+  border: 1px solid white;
+  width: 600;
+  border-spacing: 10px;
+  background-color: rgb(0,0,0,0.9);
+  opacity: 50%;
+}
+
+td {
+  text-align: center;
+}
+.labels{
+  font-weight: bold;
+}
+.comments{
+  text-align: left;
+}
+</style>
+
+<title>the dirty results</title>
+</head>
+<body>
+
+<center><h1>Top 5 Hostels in {{cityname}}<br>Rated {{sortme.capitalize()}} for {{criterion.capitalize()}}<br></h1></center>
+
+<!-- This is the important part!!
+The following code is basically what reads your data and runs your function from app.py
+Don't forget the {% for x in whatever %} if you use a for loop and end the for loop with {% endfor %} -->
+
+{% for index,key in topfive.iterrows() %}
+
+      <table align="center"><tr>
+        <td colspan=7><h2 class=comments><a href="{{ key[1][0] }}">{{ key[0] }}</a></h2>
+          <tr>
+        <td class="labels">Value<br>for Money</td>
+        <td class="labels">Security</td>
+        <td class="labels">Location</td>
+        <td class="labels">Facilities</td>
+        <td class="labels">Staff</td>
+        <td class="labels">Atmosphere</td>
+        <td class="labels">Cleanliness</td>
+      </tr>
+      <tr>
+      <td>{{ key[2] }}
+        <td>{{ key[3] }}</td>
+        <td>{{ key[4] }}</td>
+        <td>{{ key[5] }}</td>
+        <td>{{ key[6] }}</td>
+        <td>{{ key[7] }}</td>
+        <td>{{ key[8] }}</td>
+      <tr>
+        <td colspan="7" class="comments"><br>
+        <p class="labels">Most Positive Comment:</p>
+        {{ key[9][0] }}<br><br>
+        <p class="labels">Most Negative Comment:</p>
+        {{ key[10][0] }}
+      </table>
+      <br>
+  {% endfor %}
+
+<center><a href="/"><button type="submit">New Search?</button></a></center>
+
+
+
+</td></tr></table>
+</body>

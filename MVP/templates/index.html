@@ -1,0 +1,73 @@
+<style>
+body {
+background-image: url('static/luxurycapsule.jpg');
+background-attachment: fixed;
+color: rgb(256, 256, 256);
+margin-top: 50px;
+font-family: sans-serif;
+}
+table{
+  border: 1px solid white;
+  width: 600;
+  border-spacing: 50px;
+  background-color: rgb(0,0,0,0.8);
+  opacity: 50%;
+}
+</style>
+
+<title>MVP demo</title>
+
+  </head>
+  <body>
+<div class="main">
+
+<!-- This sends user to recommendations page after filling out the survey   -->
+<center>
+
+<table >
+  <tr><td>
+    <center><h1>hosteldirt!</h1>
+  <h2>digging for hostelworld dirt since 2018</h2></center>
+<form action='/dirt', method='POST'>
+
+<!-- My first question, input class="input" means a text box -->
+<div class = "input"><h3>Where are you going?</h3></div>
+  <p>
+    <select name="cityname">
+      <option value="Toronto">Toronto</option>
+      <option value="Paris">Paris</option>
+      <option value="London">London</option>
+    </select>
+  </p>
+  <br>
+
+  <div><h3>What do you care most about when choosing a hostel?</h3></div>
+  <div class="input" required>
+    <!-- There are a number of input types to customize user input -->
+    <input type="radio" name="rating" value="value" required="required">Value for Money<br>
+    <input type="radio" name="rating" value="security">Security<br>
+    <input type="radio" name="rating" value="location">Location<br>
+    <input type="radio" name="rating" value="facilities">Facilities<br>
+    <input type="radio" name="rating" value="staff">Staff<br>
+    <input type="radio" name="rating" value="atmosphere">Atmosphere<br>
+    <input type="radio" name="rating" value="cleanliness">Cleanliness<br>
+</div>
+      <br>
+
+      <div class="input"><h3>Do you want to see the best-rated hostels or the worst-rated ones?</h3></div>
+        <p>
+            <input type="radio" name="sortme" value="best" required="required">Best Rated<br>
+            <input type="radio" name="sortme" value="worst">Worst Rated<br>
+        </p>
+        <br>
+
+  <button type="submit">Dig for Dirt!</button>
+</form>
+
+
+  </div>
+</div>
+</td></tr>
+</table>
+</center>
+</body>
