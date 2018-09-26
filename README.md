@@ -3,7 +3,7 @@
 
 Insight 2018 Remote Program project
 
-* scraped 10K comments from 900 hostels across 8 cities from Hostelworld.
+* scraped 10K comments from 900 hostels across 8 cities from Hostelworld with BeautifulSoup in Python
 * Digs up negative comments about cleanliness to let you know how the official hostel rating compares to actual human feedback from the past 90 days.
 * Will be deployed with Bootstrap, Flask, and AWS when done!
 
