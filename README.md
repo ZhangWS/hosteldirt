@@ -1,4 +1,6 @@
 # hosteldirt
+*dig up the comment dirt on hostels!*
+
 Insight 2018 Remote Program project
 
 * scraped 10K comments from 900 hostels across 8 cities from Hostelworld.
