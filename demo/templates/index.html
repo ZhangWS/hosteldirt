@@ -1,0 +1,32 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='bootstrap.min.css')}}">
+{% endblock %}
+
+{%block content%}
+<center><h1>hosteldirt!</h1>
+  <i>digging up dirt on hostelworld</i>
+
+<form action='/city', method='POST'>
+
+<!-- My first question, input class="input" means a text box -->
+<div class = "input"><h3>Where do you want to go?</h3></div>
+  <div class="form-group">
+    <select name="cityname" id="cityname" width="400", method="GET">
+<!--      <option selected="Selected" value>Select a City</option>-->
+      {% for city in cityvars %}
+      <option value="{{ city }}">{{ city }}</option>
+        {% endfor %}
+    </select>
+
+  </div>
+
+<br><br>
+  <button type="submit">Find some hostels!</button>
+</form>
+
+</center>
+
+{% endblock%}

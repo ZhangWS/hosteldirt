@@ -1,0 +1,52 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='bootstrap.min.css')}}">
+{% endblock %}
+
+
+{%block content%}
+<center><h1>Dirt on {{ hostelsummary[0] }} <br></h1>
+
+<!-- This is the important part!!
+The following code is basically what reads your data and runs your function from app.py
+Don't forget the {% for x in whatever %} if you use a for loop and end the for loop with {% endfor %} -->
+<table><tr>
+<td class="labels">Value<br>for Money</td>
+<td class="labels">Security</td>
+<td class="labels">Location</td>
+<td class="labels">Facilities</td>
+<td class="labels">Staff</td>
+<td class="labels">Atmosphere</td>
+<td class="labels">Cleanliness</td>
+</tr>
+<tr>
+  <td>{{ hostelsummary[1] }}
+    <td>{{ hostelsummary[2] }}</td>
+    <td>{{ hostelsummary[3] }}</td>
+    <td>{{ hostelsummary[4] }}</td>
+    <td>{{ hostelsummary[5] }}</td>
+    <td>{{ hostelsummary[6] }}</td>
+    <td><b>{{ hostelsummary[7] }}</b></td>
+</tr>
+    <tr>
+      <td colspan=7>
+        Out of <b>X reviews</b> in the last 90 days, <b>Y out of X</b> discussed
+        the cleanliness of this hostel. ZZ% of the discussion was (DISCUSS STATE).
+      </td>
+    <tr>
+      <td colspan=7>
+        <b>The 3 most recent negative reviews:</b>
+
+      </td>
+    </tr>
+
+
+
+
+
+</table>
+<br><br>
+<a href="/"><button type="submit">New Search?</button></a></center>
+{% endblock%}
