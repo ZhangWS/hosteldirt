@@ -12,6 +12,6 @@ Progress:
 
 * MVP (week 2) - uses canned VADER sentiment analysis (rule-based) - webapp asks for city location, rating dimension, and returns top-rated hostels for that dimension along with the most positive and most negative review. And yes, the webdesign is straight out of a sleep-deprived tumblr.
 
-* Demo version (week 3) - reduced scope to focus on cleanliness. For a desired city, webapp will return a list of hostels along with their cleanliness scores and review excerpts that contain content about sanitation.
+* Demo version (week 3) - reduced scope to focus on cleanliness. Labeled about 2K reviews (about 8K sentences, according to the spaCy sentence parser) about the topic of discussion. Calculated TF-IDF to determine characteristics about the topic. For a desired city, the local app returns curated review content from hostels about their recent sanitation track record.
 
 * Web app version (week 4) - prettify and make more useful.
