@@ -1,31 +1,57 @@
 {%- extends "bootstrap/base.html" %}
 
 {% block styles %}
-<link rel="stylesheet"
-      href="{{url_for('.static', filename='bootstrap.min.css')}}">
+<style>
+body {
+background-image: url('static/pdx.jpg');
+background-attachment: fixed;
+font-family: sans-serif;
+margin-top: 50px;
+}
+table{
+  background-color: rgb(256,256,256,0.85);
+  border-spacing: 10px;
+}
+</style>
+
 {% endblock %}
 
 {%block content%}
-<center><h1>hosteldirt!</h1>
-  <i>digging up dirt on hostelworld</i>
+<center>
+<table>
+<tr><td colspan="2">
+<center><h1>hosteldirt</h1>
+  <i>digging up the hostel reviews that you need to read</i>
+</center>
 
+<tr>
+<td valign="top" >
 <form action='/city', method='POST'>
 
 <!-- My first question, input class="input" means a text box -->
-<div class = "input"><h3>Where do you want to go?</h3></div>
-  <div class="form-group">
-    <select name="cityname" id="cityname" width="400", method="GET">
-<!--      <option selected="Selected" value>Select a City</option>-->
+
+  <h3>Destination</h3>
       {% for city in cityvars %}
-      <option value="{{ city }}">{{ city }}</option>
-        {% endfor %}
-    </select>
-
-  </div>
-
+      <input type="radio" name="cityname" value="{{ city }}" method="GET" required>{{ city }}<br>
+      {% endfor %}
+<td valign="top">
+<h3>I want to read<br>reviews about:</h3>
+<input type="radio" name="criterion" value="cleanliness" method="GET" checked="true">Cleanliness</option><br>
+<!--<s>Value for Money</s><br>
+<s>Security</s><br>
+<s>Location</s><br>
+<s>Value for Money</s><br>
+<s>Staff</s><br>
+<s>Atmosphere</s><br>
+<s>Facilities</s><br>-->
+</select>
+</td>
+<tr><td colspan="2">
 <br><br>
-  <button type="submit">Find some hostels!</button>
+<center><button type="submit">Find hostels!</button></center>
 </form>
+</td>
+</tr></table>
 
 </center>
 

@@ -1,52 +1,65 @@
 {%- extends "bootstrap/base.html" %}
 
 {% block styles %}
-<link rel="stylesheet"
-      href="{{url_for('.static', filename='bootstrap.min.css')}}">
+<style>
+body {
+background-image: url('static/pdx.jpg');
+background-attachment: fixed;
+font-family: sans-serif;
+margin-top: 50px;
+}
+table{
+  background-color: rgb(256,256,256,0.85);
+  border-spacing: 10px;
+}
+</style>
+
 {% endblock %}
 
-
 {%block content%}
-<center><h1>Dirt on {{ hostelsummary[0] }} <br></h1>
+<center><table cellpadding="10">
+  <tr>
+<!--    reviews_compare.append([hostelname, hostelurl, numreviews, numclean,sentnum,cleanexcerpt])
+-->
+{% for hostel in summary %}
+<td width="400" valign="top">
+
+<center><h1><a href="{{ hostel[1] }}">{{ hostel[0] }}</a></h1></center>
+<hr>
 
 <!-- This is the important part!!
 The following code is basically what reads your data and runs your function from app.py
 Don't forget the {% for x in whatever %} if you use a for loop and end the for loop with {% endfor %} -->
-<table><tr>
-<td class="labels">Value<br>for Money</td>
-<td class="labels">Security</td>
-<td class="labels">Location</td>
-<td class="labels">Facilities</td>
-<td class="labels">Staff</td>
-<td class="labels">Atmosphere</td>
-<td class="labels">Cleanliness</td>
+<ul>
+<li><b>{{ hostel[3] }} out of {{ hostel[2] }} reviews</b> in the last 90 days discussed cleanliness.<br>
+{% if hostel[3] > 0%}
+<li><b>{{ hostel[4] }} reviews</b> were positive.
+{% else %}
+<li>No reviews to analyze
+{% endif %}
+</ul>
+<hr>
+
+{% if hostel[3] > 0 %}
+<h3>Most recent reviews:</h3>
+
+{% for excerpt in hostel[5].itertuples() %}
+
+<h4>{{ excerpt.date }}, {{ excerpt.sentword }} review</h4>
+{{ excerpt.review}}<br>
+
+{% endfor %}
+
+{% else %}
+<h3>No relevant reviews to display. :(</h3>
+{% endif %}
+
+</td>
+{% endfor %}
+
 </tr>
-<tr>
-  <td>{{ hostelsummary[1] }}
-    <td>{{ hostelsummary[2] }}</td>
-    <td>{{ hostelsummary[3] }}</td>
-    <td>{{ hostelsummary[4] }}</td>
-    <td>{{ hostelsummary[5] }}</td>
-    <td>{{ hostelsummary[6] }}</td>
-    <td><b>{{ hostelsummary[7] }}</b></td>
-</tr>
-    <tr>
-      <td colspan=7>
-        Out of <b>X reviews</b> in the last 90 days, <b>Y out of X</b> discussed
-        the cleanliness of this hostel. ZZ% of the discussion was (DISCUSS STATE).
-      </td>
-    <tr>
-      <td colspan=7>
-        <b>The 3 most recent negative reviews:</b>
-
-      </td>
-    </tr>
-
-
-
-
-
 </table>
-<br><br>
-<a href="/"><button type="submit">New Search?</button></a></center>
+</center>
+
+
 {% endblock%}

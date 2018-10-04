@@ -1,32 +1,48 @@
 {%- extends "bootstrap/base.html" %}
-
 {% block styles %}
-<link rel="stylesheet"
-      href="{{url_for('.static', filename='bootstrap.min.css')}}">
+<style>
+body {
+background-image: url('static/pdx.jpg');
+background-attachment: fixed;
+font-family: sans-serif;
+margin-top: 50px;
+}
+table{
+  background-color: rgb(256,256,256,0.85);
+  border-spacing: 10px;
+}
+</style>
 {% endblock %}
 
 
 {%block content%}
 <center>
-<h1>digging up dirt on {{ cityname }}</h1>
+    <table cellpadding="10">
+      <tr><td colspan="3">
+  <center><h1>Hostels in {{ cityname }}</h1>
+
+
+<!-- My first question, input class="input" means a text box -->
+<h2>Select some hostels to compare their reviews:</h2></center>
 
 <form action='/dirt', method='POST'>
 
-<!-- My first question, input class="input" means a text box -->
-<div class = "input"><h3>Which hostel do you want dirt on?</h3></div>
-  <div class="form-group">
-    <select name="hostelname" id="hostelname" width="600", method="GET">
-      {% for hostel in hostelnames %}
-      <option value="{{ hostel }}">{{ hostel }}</option>
+      {% for hostel in hostelsummary %}
+
+      <tr>
+        <td colspan="3"><h3><input type="checkbox" name="{{ hostel[0] }}" value = "{{ hostel[0] }}" method='GET'>&nbsp;&nbsp;{{ hostel[0] }}</h3>
+      <tr><td><b>Average Overall Rating:</b> {{ hostel[2] }}</td>
+        <td class="labels"><b>Average Cleanliness Rating</b>: {{ hostel[9] }}</td>
+        <td><b># Reviews:</b> {{ hostel[1] }}
+        <tr><td colspan="3"><hr>
+      </tr>
         {% endfor %}
-    </select>
+        <tr><td colspan="3"><input type="hidden" name="cityname" value="{{ cityname }}">
+          <center><button type="submit">Look for relevant reviews</button></center>
+      </table>
 
   </div>
-
-<br><br>
-  <button type="submit">Dig for dirt</button>
 </form>
-
 </center>
 
 {% endblock%}

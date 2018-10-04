@@ -1,0 +1,43 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block styles %}
+<style>
+body {
+background-color: grey;
+}
+table{
+  background-color: white;
+}
+</style>
+
+{% endblock %}
+
+{%block content%}
+<center><table width="800" cellpadding="5">
+  <tr><td>
+
+<center><h1><a href={{ hostelurl[0] }}>{{ hostelname }}<a></h1></center>
+
+<!-- This is the important part!!
+The following code is basically what reads your data and runs your function from app.py
+Don't forget the {% for x in whatever %} if you use a for loop and end the for loop with {% endfor %} -->
+
+<h2>{{ numclean }} out of {{ numreviews }} reviews</b> in the last 90 days discussed
+      this hostel's cleanliness. {% if numclean > 0%}<br>Of them, <b>{{ sentnum }} reviews</b> were positive.{% endif %}
+<hr>
+{% if numclean > 0%}
+<h2>Most recent reviews:</h2>
+{% for excerpt in cleanexcerpt.itertuples() %}
+<h3>{{ excerpt.date }}, {{ excerpt.sentiment }} review</h3>
+{{ excerpt.review}}<br><br>
+{% endfor %}
+{% else %}
+<h3>No relevant reviews to display. :(</h3>
+{% endif %}
+
+</td></tr>
+</table>
+</center>
+
+
+{% endblock%}
