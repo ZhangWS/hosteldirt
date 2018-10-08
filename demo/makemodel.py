@@ -111,9 +111,9 @@ def maketest(df, svm, tf_vect):
 
 #we want to label the sentiments when we display them
 def makelabel(sent):
-    if sent > 0.2:
+    if sent > 0.25:
         sentword = ("Positive")
-    elif sent > -0.2:
+    elif sent > -0.25:
         sentword = ("Neutral")
     else:
         sentword = ("Negative")
