@@ -24,5 +24,5 @@ def summarizehostel(df):
 
 
         temp.append([name,numreviews,avgrating,tvalue,tsecurity,tlocation,tfacilities,tstaff,tatmosphere,tcleanliness])
-    temp = sorted(temp, key=lambda x: x[9], reverse=True)
+    temp = sorted(temp, key=lambda x: (x[2],x[9]), reverse=True)
     return temp

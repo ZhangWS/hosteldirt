@@ -1,48 +1,74 @@
 {%- extends "bootstrap/base.html" %}
+
 {% block styles %}
+
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 <style>
+
 body {
-background-image: url('static/pdx.jpg');
+background-image: url('static/images/pdx.jpg');
 background-attachment: fixed;
-font-family: sans-serif;
-margin-top: 50px;
+color: black;
+margin-top: 40px;
 }
 table{
-  background-color: rgb(256,256,256,0.85);
-  border-spacing: 10px;
+  background-color: rgb(256,256,256,0.75);
+  width: 100%;
+}
+tr:hover{
+  background-color: #f0f0f0;
+}
+td{
+  margin-right:25px;
+  vertical-align: middle;
+  height: 30px;
 }
 </style>
+
+
 {% endblock %}
 
 
 {%block content%}
-<center>
-    <table cellpadding="10">
-      <tr><td colspan="3">
-  <center><h1>Hostels in {{ cityname }}</h1>
 
 
-<!-- My first question, input class="input" means a text box -->
-<h2>Select some hostels to compare their reviews:</h2></center>
+<div class="row">
+<div class="mx-auto">
+<div class="card border-primary mb-3">
+<div class="card-body">
+  <h4 class="card-title">Indexing {{ numreviews}} reviews at {{ numhostels }} hostels in {{ cityname }}</h4>
+  <hr>
+<h5 class="card-text"><i>Select some hostels to compare their recent reviews:</i></h5>
 
+<table>
+<tr><td>
 <form action='/dirt', method='POST'>
+  <tr>
+    <th></th>
+    <th scope="col"><b>Hostel Name</b><br>
+    <th scope="col"><center><b>Average<br>Rating</b><br>
+    <th scope="col"><center><b>Average<br>Cleanliness<br></td>
+    <th scope="col"><center><b># Reviews:<br></td>
+  </tr>
 
       {% for hostel in hostelsummary %}
 
       <tr>
-        <td colspan="3"><h3><input type="checkbox" name="{{ hostel[0] }}" value = "{{ hostel[0] }}" method='GET'>&nbsp;&nbsp;{{ hostel[0] }}</h3>
-      <tr><td><b>Average Overall Rating:</b> {{ hostel[2] }}</td>
-        <td class="labels"><b>Average Cleanliness Rating</b>: {{ hostel[9] }}</td>
-        <td><b># Reviews:</b> {{ hostel[1] }}
-        <tr><td colspan="3"><hr>
+        <td width="10%"><center><input type="checkbox" name="{{ hostel[0] }}" value = "{{ hostel[0] }}" method='GET'></center>
+        <td><i>{{ hostel[0] }}</i>
+        <td><center>{{ hostel[2] }}</td>
+        <td><center>{{ hostel[9] }}</td>
+        <td><center>{{ hostel[1] }}
       </tr>
         {% endfor %}
-        <tr><td colspan="3"><input type="hidden" name="cityname" value="{{ cityname }}">
-          <center><button type="submit">Look for relevant reviews</button></center>
       </table>
+      <div class="text-center">
+        <br><br>
+        <input type="hidden" name="cityname" value="{{ cityname }}">
+        <input type="hidden" name="reqreviews" value="{{ reqreviews }}">
+        <button type="submit" class="btn btn-primary">Compare Hostels</button></form>
+        <a href="/" class="btn btn-secondary" role="button">New City Search</a>
+      </div>
 
-  </div>
-</form>
-</center>
 
 {% endblock%}

@@ -1,58 +1,73 @@
 {%- extends "bootstrap/base.html" %}
 
 {% block styles %}
+
+<!--Flatly CSS from Bootswatch-->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 <style>
+
 body {
-background-image: url('static/pdx.jpg');
+background-image: url('static/images/pdx.jpg');
 background-attachment: fixed;
-font-family: sans-serif;
-margin-top: 50px;
+color: black;
+margin-top: 40px;
 }
 table{
-  background-color: rgb(256,256,256,0.85);
-  border-spacing: 10px;
+  background-color: rgb(256,256,256,0.75);
+  width: 100%;
+}
+tr:hover{
+  background-color: #f0f0f0;
+}
+td{
+  margin-right:25px;
+  vertical-align: bottom;
+  height: 30px;
+}
+
+.card {
+  display: inline-block;
 }
 </style>
+
 
 {% endblock %}
 
 {%block content%}
-<center>
-<table>
-<tr><td colspan="2">
-<center><h1>hosteldirt</h1>
-  <i>digging up the hostel reviews that you need to read</i>
-</center>
-
-<tr>
-<td valign="top" >
-<form action='/city', method='POST'>
-
 <!-- My first question, input class="input" means a text box -->
 
-  <h3>Destination</h3>
-      {% for city in cityvars %}
-      <input type="radio" name="cityname" value="{{ city }}" method="GET" required>{{ city }}<br>
-      {% endfor %}
-<td valign="top">
-<h3>I want to read<br>reviews about:</h3>
-<input type="radio" name="criterion" value="cleanliness" method="GET" checked="true">Cleanliness</option><br>
-<!--<s>Value for Money</s><br>
-<s>Security</s><br>
-<s>Location</s><br>
-<s>Value for Money</s><br>
-<s>Staff</s><br>
-<s>Atmosphere</s><br>
-<s>Facilities</s><br>-->
-</select>
-</td>
-<tr><td colspan="2">
-<br><br>
-<center><button type="submit">Find hostels!</button></center>
-</form>
-</td>
-</tr></table>
+<div class="row text-center">
+  <div class="mx-auto">
+<div class="card border-primary mb-3" style="max-width:20rem;">
+<div class="card-body">
+  <h1 class="card-title">hosteldirt</h1>
+    <i class="card-text">What do actual travelers think about hostel sanitation? Use this app to automatically find the comments that you need to read.</i>
+  <hr>
 
-</center>
+  <h4>I want to go to:</h4>
+  <div class="form-group">
+    <form action='/city', method='POST' role="form">
+      <select required class="form-control" name="cityname" id="cityname" method="GET">
+        {% for city in cityvars %}
+      <option value="{{ city }}">{{ city }}
+      {% endfor %}
+    </select>
+<br>
+  <h4>I want to see:</h4>
+      <select required class="form-control" name="reqreviews" id="reqreviews" method="GET">
+      <option value="3">3 most recent reviews
+      <option value="5">5 most recent reviews
+      <option value="10">10 most recent reviews
+    </select>
+
+    <br><i>Cataloguing reviews from {{ numcity }} cities</i><br>
+    <button type="submit" class="btn btn-primary">Find Hostels</button>
+  </form>
+<hr>
+  <i class="card-text">Created 2018 by Natalia Zhang.<br><a href="https://github.com/ZhangWS/">Github source here.</a></i>
+  </div>
+</div>
+</div>
+</div>
 
 {% endblock%}

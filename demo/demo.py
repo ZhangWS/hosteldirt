@@ -3,48 +3,57 @@ from flask_bootstrap import Bootstrap
 import prepdata
 import makemodel
 import reviewprocessing
-from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
+import statistics
 
+#initialize application with Bootstrap
 app=Flask(__name__, static_url_path='/static')
 bootstrap=Bootstrap(app)
 
-#Here I get a bunch of global variables. They're used a lot
+#Set a bunch of global variables that are used a lot
 hostellinks, hostelreviews, cleanlabeled = prepdata.readdata()
-cityvars = prepdata.getcityvars(hostellinks)
+numcity, cityvars = prepdata.getcityvars(hostellinks)
 train_data, test_data = makemodel.splitsets(cleanlabeled)
 tf_vect = makemodel.inittfidf()
 svm = makemodel.fittfidf(train_data, tf_vect)
 
-#this model is already trained. All we need to do for each hostel is to
-#1. pipeline and preprocess tokenize_text
-#2. fit_transform
-#3. output
-
 #Standard home page. 'index.html' is the file in your templates that has the CSS and HTML for your app
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', cityvars=cityvars)
+    return render_template('index.html', numcity=numcity, cityvars=cityvars)
 
+#next option to select and compare hostels in one particular city
+#remember that you need to provide a passthrough hidden option for the number of reviews requested
 @app.route('/city', methods=['GET', 'POST'])
 def city():
     cityname = str(request.form['cityname'])
+    reqreviews = str(request.form['reqreviews'])
+
+    #create this in prepdata with SQL for more consistency
     reviews = hostelreviews[ hostelreviews['city'] == cityname ]
+    numreviews = reviews.shape[0]
     hostelsummary = reviewprocessing.summarizehostel(reviews)
+    numhostels = len(hostelsummary)
 
-    return render_template('city.html', cityname=cityname, hostelsummary=hostelsummary)
+    return render_template('city.html', cityname=cityname, reqreviews=reqreviews,numhostels=numhostels,numreviews=numreviews,hostelsummary=hostelsummary)
 
-
-#After they submit the survey, the index page redirects to dirt.html where dirt is rendered
+#ALast page provides comparison containing summarized content for all hostels requested
+#this function needs refactoring
 @app.route('/dirt', methods=['GET', 'POST'])
 def dirt():
 
-    #city currently only returns ONE hostel name because I'm not cool enough to do PHPself.
-    #Also investigate daniel's method of scrap -> convert -> compare against model -> summarize
+    #get the two requested variables, city name and # of reviews requested
     cityname = str(request.form['cityname'])
-    cityhostels = hostelreviews[hostelreviews['city'] == cityname]
-    allhostels = cityhostels['name'].unique().tolist()
+    reqreviews = str(request.form['reqreviews'])
 
+    #assemble a queue of the hostels in that hostel
+    #this may be better to do in prepdata, actually, with SQL
+    cityhostels = hostelreviews[hostelreviews['city'] == cityname]
+
+    #There are multiple checkboxes, and we need to retrieve the checked values of all of them
+
+    #first, get unique city names (this can be factored and use SQL if need be)
+    allhostels = cityhostels['name'].unique().tolist()
     hostels_selected = []
     for i in allhostels:
         if request.form.get(i):
@@ -57,39 +66,47 @@ def dirt():
         if hostels_selected[w] !='None':
             hostels_compare.append(hostels_selected[w])
 
+    #hostels_compare is the list of hostels that I need to analyze
     numhostels = len(hostels_compare)
 
+    #these are the reviews, with each row being for a hostel plus selected reviews.
+    #this is mostly okay, but we need to institute highlighting for the appropriate row
     reviews_compare = []
 
     for hostelname in hostels_compare:
 
+        #again, get df of hostel reviews for a particular hostels
         reviews = hostelreviews[ hostelreviews['name'] == hostelname ]
-        hostelname = reviews['name'].unique()
-        hostelurl = reviews['url'].unique()
-        numreviews = len(reviews.index)
+        hostelname = reviews['name'].unique() #unique hostel name
+        hostelurl = reviews['url'].unique() #unique url
+        numreviews = len(reviews.index) #number of reviews
+        rcleanliness = round(reviews['cleanliness'].mean(),1)
+        avgrating = round(statistics.mean([reviews['value'].mean(),reviews['security'].mean(),reviews['location'].mean(),reviews['facilities'].mean(),reviews['staff'].mean(),reviews['atmosphere'].mean(),rcleanliness]),1)
 
         #this needs to provide summary stats on NLP as well as NLP excerpts
         reviews = makemodel.maketest(reviews, svm, tf_vect)
 
+        #get only reviews that are islclean conpliant
         cleanrevs = reviews[reviews['isclean']==1]
+        #sort so that newer reviews are at the top
         cleanrevs = cleanrevs.sort_values(by=['date'], ascending = False)
+        #figure out how many are clean
         numclean = len(cleanrevs.index)
-        cleanrevs = cleanrevs[:5]
+        #subset only the number requested
+        cleanrevs = cleanrevs[:int(reqreviews)]
 
         if numclean > 0:
-            sent = cleanrevs[ cleanrevs['sentword'] == 'positive']
-            sentnum = len(sent)
-            cleanexcerpt = pd.DataFrame({'date':cleanrevs.date, 'sentiment':cleanrevs.sentiment, 'sentword':cleanrevs.sentword, 'review':cleanrevs.reviewtext})
+            pos = cleanrevs[cleanrevs['sentword'] == 'Positive']
+            posnum = len(pos)
+            cleanexcerpt = pd.DataFrame({'date':cleanrevs.date, 'sentiment':cleanrevs.sentiment, 'sentword':cleanrevs.sentword, 'reviewtext':cleanrevs.review})
         else:
-            avgsent = 0
-            sentnum = 0
+            posnum = 0
             cleanexcerpt = []
 
-        reviews_compare.append([hostelname[0], hostelurl[0], numreviews, numclean,sentnum,cleanexcerpt])
-
+        #appends a list containing multiple parts to it
+        reviews_compare.append([hostelname[0], hostelurl[0], numreviews, numclean, posnum, cleanexcerpt, avgrating, rcleanliness])
+        #the final thing has got a data frame that's got lists inside
     return render_template('dirt.html', summary=reviews_compare)
-#    return render_template('dirt.html', hostelname=hostelname, hostelurl=hostelurl,numreviews = numreviews, numclean = numclean, sentnum = sentnum, cleanexcerpt=cleanexcerpt)
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)

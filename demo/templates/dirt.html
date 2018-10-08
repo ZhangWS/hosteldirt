@@ -1,65 +1,142 @@
 {%- extends "bootstrap/base.html" %}
 
 {% block styles %}
+
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 <style>
+
 body {
-background-image: url('static/pdx.jpg');
+background-image: url('static/images/pdx.jpg');
 background-attachment: fixed;
-font-family: sans-serif;
-margin-top: 50px;
+color: black;
+margin-top: 40px;
 }
-table{
-  background-color: rgb(256,256,256,0.85);
-  border-spacing: 10px;
+table, td {
+  background-color:white;
+  margin-right:100px;
+  vertical-align: middle;
 }
+.positive{
+  background-color: rgb(66,244,140,0.3);
+}
+.negative{
+  background-color: rgb(244,66,66,0.3);
+}
+.neutral{
+  background-color: rgb(244,241,66,0.3)
+}
+
 </style>
+
 
 {% endblock %}
 
 {%block content%}
-<center><table cellpadding="10">
-  <tr>
-<!--    reviews_compare.append([hostelname, hostelurl, numreviews, numclean,sentnum,cleanexcerpt])
--->
+<div class="row container-fluid flex-row flex-nowrap">
+<!--    [hostelname[0], hostelurl[0], numreviews, numclean, posnum, cleanexcerpt])
+cleanexcerpt: 'date', 'sentiment', 'sentword', 'reviewtext'}
+when doing demo, go to london and use St Christopher's Inn and Holland House-->
+<div class="col">
+<div class="card border-primary mb-3 mx-auto col=3" style="min-width:15rem;max-width:15rem;">
+<div class="card-body">
+  <h3 class="card-title">Results</h3>
+  <div class="col">
+    <b class="positive">Positive review</b><br>
+    <b class="neutral">Neutral review</b><br>
+    <b class="negative">Negative review</b><br><br>
+  <a href="/" class="btn btn-primary align-items-center" role="button">New City Search?</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!--<div class="row container-fluid flex-row flex-nowrap">-->
+
+{% if not summary %}
+<div class="col">
+<div class="card border-primary mb-3 mx-auto col=3" style="min-width:50rem;max-width:50rem;">
+<div class="card-body align-items-center" style="height: 6em; line-height:1em;overflow:hidden;">
+<center><h3 class="card-title">No hostels selected! Try again?</h3></center>
+
+</div>
+</div>
+</div>
+
+
+{% else %}
 {% for hostel in summary %}
-<td width="400" valign="top">
+<div class="col">
+<div class="card border-primary mb-3 mx-auto col=3" style="min-width:30rem;max-width:30rem;">
+<div class="card-body align-items-center" style="height: 6em; line-height:1em;overflow:hidden;">
+<center><h3 class="card-title"><a href="{{ hostel[1] }}">{{ hostel[0] }}</a></h3></center>
 
-<center><h1><a href="{{ hostel[1] }}">{{ hostel[0] }}</a></h1></center>
+</div>
+
+<div class="card-body">
 <hr>
-
 <!-- This is the important part!!
 The following code is basically what reads your data and runs your function from app.py
 Don't forget the {% for x in whatever %} if you use a for loop and end the for loop with {% endfor %} -->
+<h4>In the last 90 days:</h4>
 <ul>
-<li><b>{{ hostel[3] }} out of {{ hostel[2] }} reviews</b> in the last 90 days discussed cleanliness.<br>
+<li><b>{{ hostel[6] }}</b> Average rating
+<li><b>{{ hostel[7] }}</b> Cleanliness rating
+<li><b>{{ hostel[3] }}/{{ hostel[2] }}</b> Reviews discussed cleanliness.
 {% if hostel[3] > 0%}
-<li><b>{{ hostel[4] }} reviews</b> were positive.
+<li><b>{{ hostel[4] }}/{{ hostel[3] }}</b> Reviews were positive.
 {% else %}
-<li>No reviews to analyze
+<li>No reviews to analyze for tone.
 {% endif %}
 </ul>
-<hr>
+
 
 {% if hostel[3] > 0 %}
-<h3>Most recent reviews:</h3>
+<hr>
+<h4>Most recent reviews:</h4><br>
 
 {% for excerpt in hostel[5].itertuples() %}
 
-<h4>{{ excerpt.date }}, {{ excerpt.sentword }} review</h4>
-{{ excerpt.review}}<br>
+<h5>{{ excerpt.date }}<br>{{ excerpt.sentword }} review</h5>
 
+{% for i in range(0,excerpt.reviewtext|length) %}
+
+{% if excerpt.sentiment[i] != 'None' %}
+
+{% if excerpt.sentiment[i] >0.2 %}
+<b class="positive">{{ excerpt.reviewtext[i] }}&nbsp;</b>
+
+{% elif excerpt.sentiment[i] > -0.2 %}
+<b class="neutral">{{ excerpt.reviewtext[i] }}&nbsp;</b>
+{% else%}
+<b class="negative">{{ excerpt.reviewtext[i] }}&nbsp;</b>
+
+
+
+{% endif %}
+
+{% else %}
+{{ excerpt.reviewtext[i] }}
+{% endif%}
+
+{% endfor %}
+<hr>
 {% endfor %}
 
 {% else %}
-<h3>No relevant reviews to display. :(</h3>
+<hr>
+<h4>No relevant reviews in last 90 days. :(</h4>
+<hr>
 {% endif %}
-
-</td>
+<center><button class="btn btn-success align-items-center" href="{{ hostel[1] }}">Reserve at<br>Hostelworld</button>
+</div></center>
+</div>
+</div>
 {% endfor %}
+</div>
 
-</tr>
-</table>
-</center>
-
+</div>
+{% endif %}
+</div>
 
 {% endblock%}
