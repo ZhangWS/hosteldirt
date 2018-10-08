@@ -14,4 +14,4 @@ Progress:
 
 * Demo version (week 3) - reduced scope to focus on cleanliness. Labeled about 2K reviews (about 8K sentences, according to the spaCy sentence parser) about the topic of discussion. Calculated TF-IDF to determine characteristics about the topic. For a desired city, the local app returns curated review content from hostels about their recent sanitation track record.
 
-* Web app version (week 4) - prettify and make more useful.
+* Web app version (week 4) - Locked except for postgreSQL functionality
