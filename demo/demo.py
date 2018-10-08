@@ -20,7 +20,7 @@ svm = makemodel.fittfidf(train_data, tf_vect)
 #Standard home page. 'index.html' is the file in your templates that has the CSS and HTML for your app
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', numcity=numcity, cityvars=cityvars)
+    return render_template('index.html', cityvars=cityvars)
 
 #next option to select and compare hostels in one particular city
 #remember that you need to provide a passthrough hidden option for the number of reviews requested
