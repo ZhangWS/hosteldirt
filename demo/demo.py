@@ -12,7 +12,7 @@ bootstrap=Bootstrap(app)
 
 #Set a bunch of global variables that are used a lot
 hostellinks, hostelreviews, cleanlabeled = prepdata.readdata()
-numcity, cityvars = prepdata.getcityvars(hostellinks)
+cityvars = prepdata.getcityvars(hostellinks)
 train_data, test_data = makemodel.splitsets(cleanlabeled)
 tf_vect = makemodel.inittfidf()
 svm = makemodel.fittfidf(train_data, tf_vect)
