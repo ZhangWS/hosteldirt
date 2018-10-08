@@ -21,4 +21,4 @@ def readdata():
 
 #Which cities exist in our database?
 def getcityvars(df):
-    return len(df['city'].unique().tolist()), df['city'].unique().tolist()
+    return df['city'].unique().tolist()
