@@ -8,7 +8,7 @@ import statistics
 
 #initialize application with Bootstrap
 app=Flask(__name__, static_url_path='/static')
-bootstrap=Bootstrap(app)
+Bootstrap(app)
 
 #Set a bunch of global variables that are used a lot
 hostellinks, hostelreviews, cleanlabeled = prepdata.readdata()
