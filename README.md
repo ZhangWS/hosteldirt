@@ -1,6 +1,5 @@
 # hosteldirt
-*dig up the comment dirt on hostels!*
-
+*digging up the hostel reviews that you need to read*
 Insight 2018 Remote Program project
 
 *	Created hosteldirt (hosteldirt.site), a curation tool to help travelers find the most informative hostel reviews
@@ -9,9 +8,9 @@ Insight 2018 Remote Program project
 *	Performed sentiment analysis on tone to proxy for reviewer attitudes about sanitation 
 *	Deployed web application using Python, PostgreSQL, git, Flask, and Amazon Web Services
 
-##Versions (in reverse chronological order)
+## Versions (in reverse chronological order)
 * demo: Final product (2 weeks of development). Web app asks for city location and # of reviews, and returns list of hostels for comparison. Final comparison page returns overview of reviews, tone of reviews, and also relevant review excerpts highlighted with the color of the reviewer's attitude with regard to cleanliness. 
 * MVP: Product at end of week 2 (wk 1 of development), web app asks for city location, rating dimension, and returns top-rated hostels for that dimension along with the most positive and most negative review. And yes, the webdesign is straight out of a sleep-deprived tumblr.
 * Jupyter Work Process: contains notebooks for scraping and cleaning data
 
-**demo** was tweaked during wk 4 to add in a postgreSQL database to allow for better IO capabilities, though this version still contains the cleaned reviews in CSV form (for training and everything else)
+**Demo** was tweaked during wk 4 to add in a postgreSQL database to allow for better IO capabilities, though this version still contains the cleaned reviews in CSV form (for training and everything else)
