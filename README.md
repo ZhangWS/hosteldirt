@@ -3,15 +3,15 @@
 
 Insight 2018 Remote Program project
 
-* scraped 10K comments from 900 hostels across 8 cities from Hostelworld with BeautifulSoup in Python
-* used NLP to classify whether a comment talks about the cleanliness of the hostel at the sentence level
-* Digs up recent, relevant human comments about hostel cleanliness to supplement the official hostel rating when making a decision about where to stay 
-* Will be deployed with PostgreSQL Bootstrap, Flask, and AWS when done!
+*	Created hosteldirt (hosteldirt.site), a curation tool to help travelers find the most informative hostel reviews
+*	Scraped 10K Hostelworld reviews from 9 cities and hand-labeled a random sample of 2K reviews at the sentence-level (final dataset size: 8.5K) for topicality
+*	Utilized TF-IDF vectorization to train SVM classifier that identifies discussion of hostel sanitation with accuracy > 95% (F1-score 85.3 with balanced recall and precision, validated with 5-fold cross validation)
+*	Performed sentiment analysis on tone to proxy for reviewer attitudes about sanitation 
+*	Deployed web application using Python, PostgreSQL, git, Flask, and Amazon Web Services
 
-Progress:
+##Versions (in reverse chronological order)
+* demo: Final product (2 weeks of development). Web app asks for city location and # of reviews, and returns list of hostels for comparison. Final comparison page returns overview of reviews, tone of reviews, and also relevant review excerpts highlighted with the color of the reviewer's attitude with regard to cleanliness. 
+* MVP: Product at end of week 2 (wk 1 of development), web app asks for city location, rating dimension, and returns top-rated hostels for that dimension along with the most positive and most negative review. And yes, the webdesign is straight out of a sleep-deprived tumblr.
+* Jupyter Work Process: contains notebooks for scraping and cleaning data
 
-* MVP (week 2) - uses canned VADER sentiment analysis (rule-based) - webapp asks for city location, rating dimension, and returns top-rated hostels for that dimension along with the most positive and most negative review. And yes, the webdesign is straight out of a sleep-deprived tumblr.
-
-* Demo version (week 3) - reduced scope to focus on cleanliness. Labeled about 2K reviews (about 8K sentences, according to the spaCy sentence parser) about the topic of discussion. Calculated TF-IDF to determine characteristics about the topic. For a desired city, the local app returns curated review content from hostels about their recent sanitation track record.
-
-* Web app version (week 4) - Locked except for postgreSQL functionality
+**demo** was tweaked during wk 4 to add in a postgreSQL database to allow for better IO capabilities, though this version still contains the cleaned reviews in CSV form (for training and everything else)
