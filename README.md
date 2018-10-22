@@ -13,4 +13,4 @@ Insight 2018 Remote Program project
 * MVP: Product at end of week 2 (wk 1 of development), web app asks for city location, rating dimension, and returns top-rated hostels for that dimension along with the most positive and most negative review. And yes, the webdesign is straight out of a sleep-deprived tumblr.
 * Jupyter Work Process: contains notebooks for scraping and cleaning data
 
-**Demo** was tweaked during wk 4 to add in a postgreSQL database to allow for better IO capabilities, though this version still contains the cleaned reviews in CSV form (for training and everything else)
+**Demo** was tweaked during week 4 to add in SQL functionality to allow for more flexible IO capabilities (e.g. updating the db with new reviews), though this version still contains the cleaned reviews in CSV form, both the original scraped db and the hand-labeled training set.
